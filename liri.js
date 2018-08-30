@@ -2,6 +2,7 @@ require("dotenv").config();
 var fs = require('fs');
 
 var request = require('request');
+var moment = require('moment');
 var keys = require('./keys.js');
 var Spotify = require('node-spotify-api');
 
@@ -47,10 +48,11 @@ function bandsInTown() {
         console.log('statusCode:', response && response.statusCode); // Print the response status code if a response was received
 
         var info = JSON.parse(body)[0];
-        console.log(info);
+
         console.log("Name of venue: " + info.venue.name);
         console.log("Venue location: " + info.venue.city);
-        console.log("Date: " + info.datetime);
+
+        console.log("Date: " + moment(info.datetime).format('MMMM Do YYYY'));
     })
 }
 
@@ -62,7 +64,7 @@ function spotifyAPI() {
         if (err) {
             return console.log('Error occurred: ' + err);
         }
-        console.log(data.tracks.items[0]);
+
         console.log("Artist(s): " + data.tracks.items[0].artists[0].name)
         console.log("Song name: " + data.tracks.items[0].name)
         console.log("Link to song: " + data.tracks.items[0].external_urls.spotify)
@@ -76,7 +78,7 @@ function OMDBFunc() {
         console.log('error:', error); // Print the error if one occurred
         console.log('statusCode:', response && response.statusCode); // Print the response status code if a response was received
         var info = JSON.parse(body);
-        console.log(info);
+
         console.log("Title: " + info.Title);
         console.log("Year: " + info.Year);
         console.log("IMDB rating: " + info.Ratings[0].Value);
